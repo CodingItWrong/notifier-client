@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Notifier",
+    "name": "CIW Notifier",
     "slug": "ciw-notifier",
     "privacy": "public",
     "sdkVersion": "35.0.0",
@@ -24,7 +24,7 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "bundleIdentifier": "com.codingitwrong.notifier"
     },
     "description": ""
   }
