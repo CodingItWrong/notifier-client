@@ -62,7 +62,7 @@ export default function MessageList() {
     <View style={{ flex: 1 }}>
       <FlatList
         data={messages}
-        keyExtractor={item => item._id}
+        keyExtractor={item => String(item.id)}
         renderItem={({ item }) => (
           <ListItem
             title={item.text}
