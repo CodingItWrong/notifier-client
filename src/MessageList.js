@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FlatList, Linking, Platform, View } from 'react-native';
-import { ListItem } from 'react-native-elements';
 import axios from 'axios';
+import { ListItem } from 'react-native-elements';
 
 // const httpUrl = Platform.select({
 //   ios: 'http://localhost:3000',

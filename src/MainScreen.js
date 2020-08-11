@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
-import PushPermissionRequester from './PushPermissionRequester';
 import MessageList from './MessageList';
+import PushPermissionRequester from './PushPermissionRequester';
 
 export default function MainScreen() {
   return (
