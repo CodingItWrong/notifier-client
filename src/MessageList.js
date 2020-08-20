@@ -11,8 +11,8 @@ import { ListItem } from 'react-native-elements';
 //   ios: 'ws://localhost:3000',
 //   android: 'ws://10.0.2.2:3000',
 // });
-const httpUrl = 'https://notifier.codingitwrong.com';
-const wsUrl = 'wss://notifier.codingitwrong.com';
+const httpUrl = 'https://ciw-notifier.herokuapp.com';
+const wsUrl = 'wss://ciw-notifier.herokuapp.com';
 
 let socket;
 
