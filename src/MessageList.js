@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, Linking, Platform, View } from 'react-native';
+import { FlatList, Linking, Platform, Text, View } from 'react-native';
 import axios from 'axios';
-import { ListItem } from 'react-native-elements';
+import { Button, ListItem } from 'react-native-elements';
 
 // const httpUrl = Platform.select({
 //   ios: 'http://localhost:3000',
@@ -11,8 +11,8 @@ import { ListItem } from 'react-native-elements';
 //   ios: 'ws://localhost:3000',
 //   android: 'ws://10.0.2.2:3000',
 // });
-const httpUrl = 'https://notifier.codingitwrong.com';
-const wsUrl = 'wss://notifier.codingitwrong.com';
+const httpUrl = 'https://ciw-notifier.herokuapp.com';
+const wsUrl = 'wss://ciw-notifier.herokuapp.com';
 
 let socket;
 
@@ -40,16 +40,18 @@ const setUpWebSocket = addMessage => {
   };
 };
 
-const loadInitialData = async setMessages => {
+const loadInitialData = async ({ setLoading, setMessages }) => {
   const messages = await axios.get(`${httpUrl}/list`);
   setMessages(messages.data);
+  setLoading(false);
 };
 
 export default function MessageList() {
+  const [loading, setLoading] = useState(true);
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    loadInitialData(setMessages);
+    loadInitialData({ setLoading, setMessages });
   }, []);
 
   useEffect(() => {
@@ -58,19 +60,35 @@ export default function MessageList() {
     });
   }, [messages]);
 
+  const reload = () => {
+    setLoading(true);
+    loadInitialData({ setLoading, setMessages });
+  };
+
+  const renderList = () => {
+    if (loading) {
+      return <ListItem title="Loading…" bottomDivider />;
+    } else {
+      return (
+        <FlatList
+          data={messages}
+          keyExtractor={item => String(item.id)}
+          renderItem={({ item }) => (
+            <ListItem
+              title={item.text}
+              bottomDivider
+              onPress={() => item.url && Linking.openURL(item.url)}
+            />
+          )}
+        />
+      );
+    }
+  };
+
   return (
     <View style={{ flex: 1 }}>
-      <FlatList
-        data={messages}
-        keyExtractor={item => String(item.id)}
-        renderItem={({ item }) => (
-          <ListItem
-            title={item.text}
-            bottomDivider
-            onPress={() => item.url && Linking.openURL(item.url)}
-          />
-        )}
-      />
+      <Button title="Reload" type="outline" onPress={reload} />
+      {renderList()}
     </View>
   );
 }
