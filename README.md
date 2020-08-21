@@ -37,6 +37,19 @@ The following should happen:
 - If you are running in the simulator, you should see "Hello, world!" added to the list of messages on the screen. This happens via web hook.
 - If you are running on a physical device, and have updated your Expo push token in the code, you should see a push notification with the message.
 
+## Creating a Standalone Binary
+
+- Bump version in `app.json`
+- Publish JS
+- `expo build:ios`
+  - Build type: archive
+  - Apple account: your real personal password, not an app-specific one
+- `expo upload:ios --latest`
+  - Password is an app-specific one-time password for Expo
+- Share with testers <https://appstoreconnect.apple.com/>
+	- Wait for it to finish processing
+	- You will need to provide Missing Compliance
+
 ## Architecture
 
 The native app connects to the backend via a real-time websocket. If you tap the button to get a push notification token, you can copy that token into the backend's configuration. Then the backend is able to send push notifications to your physical device via the Expo push notification service.
