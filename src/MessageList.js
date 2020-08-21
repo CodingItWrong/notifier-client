@@ -67,7 +67,7 @@ export default function MessageList() {
 
   const renderList = () => {
     if (loading) {
-      return <Text>Loading…</Text>;
+      return <ListItem title="Loading…" bottomDivider />;
     } else {
       return (
         <FlatList
