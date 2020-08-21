@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList, Linking, Platform, Text, View } from 'react-native';
 import axios from 'axios';
-import { ListItem } from 'react-native-elements';
+import { Button, ListItem } from 'react-native-elements';
 
 // const httpUrl = Platform.select({
 //   ios: 'http://localhost:3000',
@@ -60,12 +60,18 @@ export default function MessageList() {
     });
   }, [messages]);
 
+  const reload = () => {
+    setLoading(true);
+    loadInitialData({ setLoading, setMessages });
+  };
+
   if (loading) {
     return <Text>Loading…</Text>;
   }
 
   return (
     <View style={{ flex: 1 }}>
+      <Button title="Reload" type="outline" onPress={reload} />
       <FlatList
         data={messages}
         keyExtractor={item => String(item.id)}
