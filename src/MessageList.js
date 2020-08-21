@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, Linking, Platform, View } from 'react-native';
+import { FlatList, Linking, Platform, Text, View } from 'react-native';
 import axios from 'axios';
 import { ListItem } from 'react-native-elements';
 
@@ -40,16 +40,18 @@ const setUpWebSocket = addMessage => {
   };
 };
 
-const loadInitialData = async setMessages => {
+const loadInitialData = async ({ setLoading, setMessages }) => {
   const messages = await axios.get(`${httpUrl}/list`);
   setMessages(messages.data);
+  setLoading(false);
 };
 
 export default function MessageList() {
+  const [loading, setLoading] = useState(true);
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    loadInitialData(setMessages);
+    loadInitialData({ setLoading, setMessages });
   }, []);
 
   useEffect(() => {
@@ -57,6 +59,10 @@ export default function MessageList() {
       setMessages([newMessage, ...messages]);
     });
   }, [messages]);
+
+  if (loading) {
+    return <Text>Loading…</Text>;
+  }
 
   return (
     <View style={{ flex: 1 }}>
