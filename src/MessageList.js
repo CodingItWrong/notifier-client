@@ -65,24 +65,30 @@ export default function MessageList() {
     loadInitialData({ setLoading, setMessages });
   };
 
-  if (loading) {
-    return <Text>Loading…</Text>;
-  }
+  const renderList = () => {
+    if (loading) {
+      return <Text>Loading…</Text>;
+    } else {
+      return (
+        <FlatList
+          data={messages}
+          keyExtractor={item => String(item.id)}
+          renderItem={({ item }) => (
+            <ListItem
+              title={item.text}
+              bottomDivider
+              onPress={() => item.url && Linking.openURL(item.url)}
+            />
+          )}
+        />
+      );
+    }
+  };
 
   return (
     <View style={{ flex: 1 }}>
       <Button title="Reload" type="outline" onPress={reload} />
-      <FlatList
-        data={messages}
-        keyExtractor={item => String(item.id)}
-        renderItem={({ item }) => (
-          <ListItem
-            title={item.text}
-            bottomDivider
-            onPress={() => item.url && Linking.openURL(item.url)}
-          />
-        )}
-      />
+      {renderList()}
     </View>
   );
 }
